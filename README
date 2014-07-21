@@ -2,10 +2,7 @@ reorderDelimitedFileName.pl README
 
 Please see the inline comments for a detailed explanation of the logic.
 
-The script takes a file name, prepended with an optional directory, and a comma separated 
-list of numbers. The script breaks up the file name using the "_" delimiter, or an 
-overrride, and reorders the matched components as per the comma separated list of numbers.
- N.B. the directory path is excluded. The file is renamed using the reordered components.
+The script takes a file name, prepended with an optional directory, and a comma separated list of numbers. The script breaks up the file name using the "_" delimiter, or an override, and reorders the matched components as per the comma separated list of numbers. N.B. the directory path is excluded. The file is renamed using the reordered components.
  
 Options:
  
