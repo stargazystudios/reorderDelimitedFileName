@@ -38,20 +38,47 @@ use File::Basename;
 use File::Copy 'move';
 use Data::Dumper;
 
+sub delimitCamel
+#based on `decamelize' in `CamelCase.pm' by YAMASHINA Hio.
+#http://search.cpan.org/dist/String-CamelCase/lib/String/CamelCase.pm
+#
+#altered to retain upper case letters when inserting delimiters.
+{
+	my ($s,$delimiter) = @_;
+	$s =~ s{([^a-zA-Z]?)([A-Z]*)([A-Z])([a-z]?)}{
+		my $fc = pos($s)==0;
+		my ($p0,$p1,$p2,$p3) = ($1,$2,$3,$4);
+		my $t = $p0 || $fc ? $p0 : $delimiter;
+		$t .= $p3 ? $p1 ? "${p1}$delimiter$p2$p3" : "$p2$p3" : "$p1$p2";
+		$t;
+	}ge;
+	return $s;
+}
+
 my $file = '';
 my $order = '';
 my $test = '';
-my $delimeter = '_';
+my $delimiter = '_';
+my $camel = '';
 
 GetOptions(	'file=s' => \$file,
 			'order=s' => \$order,
-			'test' => \$test);
+			'test' => \$test,
+			'delimiter=s' => \$delimiter,
+			'camel' => \$camel);
 			
 if(-e $file){
 	if($order =~ /([0-9]+,)*[0-9]+/){
 		my ($filename,$directory,$suffix) = fileparse($file, qr/\.[^.]*/);
 		my @reorder = split(",",$order);
-		my @filenameComponents = split($delimeter,$filename);
+		
+		if($camel){
+			$filename = delimitCamel($filename,$delimiter);
+			#DEBUG
+			#print STDOUT "DEBUG: delimited camel filename: $filename\n";
+		}
+		
+		my @filenameComponents = split($delimiter,$filename);
 		
 		#DEBUG
 		#print Dumper(@reorder);

@@ -8,6 +8,8 @@ Options:
  
 --file
 	Name of the file to be reordered.
+--camel
+	Name of the file is delimited by camel case (capital letters that must be preserved).
 --order 
  	Order of new file name, formatted as a comma separated list of field numbers.
 --delimiter
